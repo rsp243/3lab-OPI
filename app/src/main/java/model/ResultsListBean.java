@@ -11,6 +11,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Data;
+import utils.DotsCountMBean;
 
 
 @Named
@@ -34,7 +35,6 @@ public class ResultsListBean implements Serializable {
             results = new LinkedList<>(DAOFactory.getInstance().getResultDAO().getAll());
         } catch (SQLException exception) {
             results = new LinkedList<>();
-            System.err.println("Педали перепутал...");
             throw new RuntimeException(exception);
         }
     }

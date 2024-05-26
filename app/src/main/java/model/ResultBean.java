@@ -49,4 +49,8 @@ public class ResultBean implements Serializable {
     public String getFormattedIsHit() {
         return isHit ? "HIT" : "MISS";
     }
+    
+    public boolean getIsHit() {
+        return isHit;
+    }
 }

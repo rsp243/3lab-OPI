@@ -1,7 +1,9 @@
 package utils;
 
+import model.ResultBean;
+
 public interface DotsCountMBean {
-    public void isCountMultipleByFive();
+    public void newPoint(ResultBean result);
 
     public int getDotsCount();
 
