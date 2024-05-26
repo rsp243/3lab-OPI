@@ -88,31 +88,31 @@
                         <div class="checkbox-block">
                             <h:commandButton type="submit" action="#{rBean.rValueAction}" render="canvasWithAxes canvas"
                                 id="r_1" value="1" validator="${rBean.validateR}"
-                                update="rValueSelected canvasWithAxes canvas">
+                                update="rValueSelected canvasWithAxes canvas" onclick="setRValue(1)">
                                 <f:setPropertyActionListener target="#{rBean.value}" value="1" />
                             </h:commandButton>
 
                             <h:commandButton type="submit" action="#{rBean.rValueAction}" render="canvasWithAxes canvas"
                                 id="r_2" value="1.5" validator="${rBean.validateR}"
-                                update="rValueSelected canvasWithAxes canvas">
+                                update="rValueSelected canvasWithAxes canvas" onclick="setRValue(1.5)">
                                 <f:setPropertyActionListener target="#{rBean.value}" value="1.5" />
                             </h:commandButton>
 
                             <h:commandButton type="submit" action="#{rBean.rValueAction}" render="canvasWithAxes canvas"
                                 id="r_3" value="2" validator="${rBean.validateR}"
-                                update="rValueSelected canvasWithAxes canvas">
+                                update="rValueSelected canvasWithAxes canvas" onclick="setRValue(2)">
                                 <f:setPropertyActionListener target="#{rBean.value}" value="2" />
                             </h:commandButton>
 
                             <h:commandButton type="submit" action="#{rBean.rValueAction}" render="canvasWithAxes canvas"
                                 id="r_4" value="2.5" validator="${rBean.validateR}"
-                                update="rValueSelected canvasWithAxes canvas">
+                                update="rValueSelected canvasWithAxes canvas" onclick="setRValue(2.5)">
                                 <f:setPropertyActionListener target="#{rBean.value}" value="2.5" />
                             </h:commandButton>
 
                             <h:commandButton type="submit" action="#{rBean.rValueAction}" render="canvasWithAxes canvas"
                                 id="r_5" value="3" validator="${rBean.validateR}"
-                                update="rValueSelected canvasWithAxes canvas">
+                                update="rValueSelected canvasWithAxes canvas" onclick="setRValue(3)">
                                 <f:setPropertyActionListener target="#{rBean.value}" value="3" />
                             </h:commandButton>
                         </div>
@@ -186,7 +186,8 @@
     <script type="text/javascript">
         function setRValue(commandButtonValue) {
             localStorage.setItem("rValue", commandButtonValue)
-            document.getElementById("canvas_form:canvas_r").value = commandButtonValue;
+            document.getElementById("rValueSelected").value = commandButtonValue;
+
             return commandButtonValue
         }
 
@@ -200,20 +201,14 @@
         }
 
         window.onload = function () {
-            rValue = getRValue()
+            setRValue(1)
+            getRValue()
             drawBeginnigGraph("canvasWithAxes")
 
             const inp = document.getElementById("j_idt10:Yselection");
             inp.oninput = function () {
                 inp.value = inp.value.replace(/[^0-9]/g, "");
             }
-
-            inp.addEventListener("focusout", function () {
-                const value = parseFloat(inp.value);
-                if (value < -5 || value > 5) {
-                    inp.value = 0;
-                }
-            })
         }
     </script>
 </h:body>

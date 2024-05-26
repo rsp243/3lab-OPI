@@ -107,10 +107,12 @@ function clearCanvas() {
 }
 
 document.getElementById("canvas").addEventListener("click", function (evt) {
-    cavas = document.getElementById("canvas")
+    canvas = document.getElementById("canvas")
     const rect = canvas.getBoundingClientRect();
     const userX = evt.clientX - rect.left - canvas.width / 2;
     const userY = (evt.clientY - rect.top - canvas.height / 2) * -1;
+
+    console.log("SLSLSL", userX, userY)
 
     triggerRequest({
         x: userX,
@@ -119,7 +121,10 @@ document.getElementById("canvas").addEventListener("click", function (evt) {
 })
 
 function triggerRequest(point) {
+    console.log("Point", point.x, point.y);
     const radius = getRValue();
+
+    console.log("RADIUS", radius)
 
     point.x = point.x / (canvas.width / 3) * radius
     point.y = point.y / (canvas.height / 3) * radius

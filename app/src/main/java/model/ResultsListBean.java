@@ -64,6 +64,10 @@ public class ResultsListBean implements Serializable {
         results.addLast(currentResult);
     }
 
+    public int getResultListLength() {
+        return results.size();
+    }
+
     public void deleteAll() {
         try {
             DAOFactory.getInstance().getResultDAO().deleteAll();
