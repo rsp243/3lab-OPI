@@ -11,7 +11,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Data;
-import utils.DotsCountMBean;
+import utils.DotsCount;
 
 
 @Named
@@ -26,6 +26,9 @@ public class ResultsListBean implements Serializable {
     
     @Inject
     private RBean RBean;
+
+    @Inject
+    private DotsCount dotsCount;
 
     private LinkedList<ResultBean> results;
 
@@ -62,6 +65,7 @@ public class ResultsListBean implements Serializable {
             System.err.println("Adding new object to DataBase failed with: " + exception.toString());
         }
         results.addLast(currentResult);
+        dotsCount.newPoint(currentResult);
     }
 
     public int getResultListLength() {
@@ -72,6 +76,7 @@ public class ResultsListBean implements Serializable {
         try {
             DAOFactory.getInstance().getResultDAO().deleteAll();
             results.clear();
+            dotsCount.setZeroDots();
         } catch (SQLException exception) {
             System.err.println("Deleting all records in DataBase failed with: " + exception.toString());
         }
