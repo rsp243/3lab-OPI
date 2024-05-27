@@ -1,4 +1,4 @@
-package utils;
+package management;
 
 import java.lang.management.ManagementFactory;
 import javax.management.ObjectName;

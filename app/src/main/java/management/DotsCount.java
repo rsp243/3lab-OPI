@@ -1,6 +1,5 @@
-package utils;
+package management;
 
-import java.lang.management.ManagementFactory;
 
 import javax.management.*;
 import model.ResultBean;
@@ -24,7 +23,7 @@ public class DotsCount extends NotificationBroadcasterSupport implements DotsCou
     private int sequenceNumber = 0;
 
     @Setter    
-    private int notificationTriggerCount = 5;
+    private int triggerPointCount = 5;
 
     @PostConstruct
     public void init() {
@@ -43,14 +42,14 @@ public class DotsCount extends NotificationBroadcasterSupport implements DotsCou
         }
         this.dotsCount++;
         
-        if (this.dotsCount % notificationTriggerCount == 0) {
-            log.info("Reached count of setted points dividing by %d".formatted(this.notificationTriggerCount));
+        if (this.dotsCount % this.triggerPointCount == 0) {
+            log.info("Reached count of setted points dividing by %d".formatted(this.triggerPointCount));
             Notification n = new Notification(
-                            "INFO", 
-                            this, 
-                            sequenceNumber++, 
+                            "INFO",
+                            this,
+                            sequenceNumber++,
                             System.currentTimeMillis(),
-                            "Reached count dividing by %d: %d".formatted(this.notificationTriggerCount, this.dotsCount));
+                            "Reached count dividing by %d: %d".formatted(this.triggerPointCount, this.dotsCount));
             
             sendNotification(n);
         }

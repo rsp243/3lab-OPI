@@ -8,10 +8,12 @@ import java.util.LinkedList;
 import db.DAOFactory;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.SystemEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Data;
-import utils.DotsCount;
+import management.DotsCount;
+import management.FigureArea;
 
 
 @Named
@@ -29,6 +31,9 @@ public class ResultsListBean implements Serializable {
 
     @Inject
     private DotsCount dotsCount;
+
+    @Inject
+    private FigureArea figureArea;
 
     private LinkedList<ResultBean> results;
 
@@ -66,6 +71,7 @@ public class ResultsListBean implements Serializable {
         }
         results.addLast(currentResult);
         dotsCount.newPoint(currentResult);
+        figureArea.measureAreaOfFigure(this.results);
     }
 
     public int getResultListLength() {
