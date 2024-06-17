@@ -67,14 +67,15 @@ java {
     }
 }
 
-// application {
-//     // Define the main class for the application.
-//     mainClass = 'laboratory.App'
-// }
-
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+tasks.register('getDeps', Copy) {
+    from sourceSets.main.runtimeClasspath
+    from sourceSets.main.compileClasspath
+    into 'lib/'
 }
 
 wildfly {

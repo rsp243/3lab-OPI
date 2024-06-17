@@ -1,0 +1,107 @@
+<project name="lab3" default="build" xmlns:if="ant:if">
+    <property file="build.properties" />
+    <path id="libs.path">
+        <fileset dir="${lib}" includes="**/*.jar" />
+    </path>
+
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="app/src/build/libs/ant-contrib-1.0b3.jar" />
+        </classpath>
+    </taskdef>
+
+    <target name="init">
+        <mkdir dir="${build.classes}" />
+        <mkdir dir="${build.tests}" />
+    </target>
+
+    <target name="compile" depends="init">
+        <javac destdir="${build.classes}" srcdir="${main.source}">
+            <classpath refid="libs.path" />
+        </javac>
+        <javac destdir="${build.tests}" srcdir="${test.source}">
+            <classpath refid="libs.path" />
+        </javac>
+        <echo message="Successfully compiled main and test sources" />
+    </target>
+
+    <target name="build" depends="compile">
+        <jar destfile="${distribution.jar}" basedir="${build.classes}" compress="false" index="true">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}" />
+                <attribute name="Version" value="${app.version}" />
+            </manifest>
+        </jar>
+        <echo message="Successfully built" />
+    </target>
+    
+    <target name="build_war" depends="compile">
+        <war destfile="${distribution.war}" compress="true" webxml="${web.xml}">
+            <lib dir="${lib}" />
+            <classes dir="${build.classes}" />
+            <fileset dir="app/src/main/webapp" excludes="${web.xml}" />
+        </war>
+    </target>
+
+    <target name="test" depends="build">
+        <mkdir dir="${test.result.dir}" />
+        <junitlauncher printsummary="on" haltonfailure="yes">
+            <classpath refid="libs.path" />
+            <classpath>
+                <pathelement location="${build.classes}" />
+            </classpath>
+            <testclasses outputdir="${test.result.dir}">
+                <fileset dir="${build.classes}" includes="**/*Test.class" />
+                <listener type="legacy-brief" sendSysOut="true" />
+                <listener type="legacy-xml" sendSysOut="true" sendSysErr="true" />
+            </testclasses>
+        </junitlauncher>
+        <echo message="Test completed" />
+        <sound>
+            <fail source="${music.dir}/discord-leave.wav" />
+        </sound>
+
+    </target>
+
+    <target name="clean">
+        <delete dir="${build.dir}" />
+        <delete dir="${distribution.dir}" />
+        <delete dir="${test.result.dir}" />
+        <echo message="Cleaned target" />
+    </target>
+
+    <target name="music" depends="build">
+        <sound>
+            <success source="${music.dir}/ser-da-ser.wav"/>
+            <fail source="${music.dir}/discord-leave.wav" />
+        </sound>
+    </target>
+
+    <target name="diff">
+        <exec executable="git" outputproperty="git.diff_out">
+            <arg value="diff" />
+            <arg value="--name-only" />
+        </exec>
+        
+        <condition property="git.should_commit" value="true">
+            <resourcecount count="0">
+                <intersect>
+                    <filelist id="git.files_to_commit" files="${git.diff_output}" />
+                    <filelist files="${git.diff_files}" />
+                </intersect>
+            </resourcecount>
+        </condition>
+        <echoproperties prefix="git" />
+        
+        <exec executable="git" if:set="git.should_commit">
+            <arg value="add" />
+            <arg line="." />
+        </exec>
+        <exec executable="git" if:set="git.should_commit">
+            <arg value="commit" />
+            <arg line="-m" />
+            <arg line="'feat: new feature'" />
+        </exec>
+    </target>
+
+</project>
