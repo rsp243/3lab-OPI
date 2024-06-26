@@ -22,8 +22,9 @@ dependencies {
     
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
-
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:32.1.1-jre'
@@ -75,6 +76,8 @@ tasks.named('test') {
 tasks.register('getDeps', Copy) {
     from sourceSets.main.runtimeClasspath
     from sourceSets.main.compileClasspath
+    from sourceSets.test.compileClasspath
+    from sourceSets.test.runtimeClasspath
     into 'lib/'
 }
 

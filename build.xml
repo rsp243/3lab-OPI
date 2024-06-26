@@ -19,7 +19,7 @@
         <javac destdir="${build.classes}" srcdir="${main.source}">
             <classpath refid="libs.path" />
         </javac>
-        <javac destdir="${build.tests}" srcdir="${test.source}">
+        <javac destdir="${build.classes}" srcdir="${test.source}">
             <classpath refid="libs.path" />
         </javac>
         <echo message="Successfully compiled main and test sources" />
@@ -58,7 +58,7 @@
         </junitlauncher>
         <echo message="Test completed" />
         <sound>
-            <fail source="${music.dir}/discord-leave.wav" />
+            <success source="${music.dir}/discord-leave.wav" />
         </sound>
 
     </target>
